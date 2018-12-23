@@ -6,8 +6,8 @@ import random
 from helpers import opposite
 
 class NNAgent:
-    def __init__(self):
-        self.seq_len = 20
+    def __init__(self, maxlen=20):
+        self.seq_len = maxlen
         self.model = Sequential([
             Dense(150, input_dim=self.seq_len),
             Activation('relu'),

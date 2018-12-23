@@ -2,6 +2,7 @@ from collections import deque
 from helpers import opposite
 import numpy as np
 
+
 class MarkovModel:
     def __init__(self):
         self.pair_count = {}
@@ -23,10 +24,11 @@ class MarkovModel:
             p *= self.pair_count.get((a, b), 0) / self.element_count[a]
         return p
 
+
 class MarkovAgent:
-    def __init__(self):
+    def __init__(self, maxlen=5):
         self.model = MarkovModel()
-        self.last_opponent_moves = deque(maxlen=5)
+        self.last_opponent_moves = deque(maxlen=maxlen)
 
     def train(self, opponent_move, agent_move, result):
         if self.last_opponent_moves:
@@ -41,4 +43,3 @@ class MarkovAgent:
         ]
         probs = [self.model.probability(pair[0]) for pair in all_moves]
         return opposite(all_moves[np.argmax(probs)][1])
-

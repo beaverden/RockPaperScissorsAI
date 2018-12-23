@@ -4,6 +4,7 @@ import markov
 import nn_agent
 import random_agent
 import biased_agent
+import matching_agent
 from helpers import evaluate, opposite
 
 
@@ -15,10 +16,14 @@ def real_opponent():
 
 
 def play():
+
     # player1 = markov.MarkovAgent()
     # player1 = random_agent.RandomAgent()
-    player1 = biased_agent.BiasedAgent()
-    player2 = nn_agent.NNAgent()
+    # player1 = biased_agent.BiasedAgent()
+    player1 = nn_agent.NNAgent()
+    #player2 = nn_agent.NNAgent()
+    #player2 = random_agent.RandomAgent()
+    player2 = matching_agent.MatchingAgent()
 
     for i in range(15):
         player1_move = player1.move()
