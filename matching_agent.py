@@ -1,15 +1,15 @@
 import random
-import numpy as np
-from helpers import opposite
 from collections import deque
 from difflib import SequenceMatcher
-from markov import MarkovModel
-from markov import MarkovAgent
-from nn_agent import NNAgent
+import numpy as np
+from agent import Agent
+from helpers import opposite
+from markov_agent import MarkovAgent
 
 
-class MatchingAgent:
+class MatchingAgent(Agent):
     def __init__(self):
+        Agent.__init__(self)
         self.sequence = []
         self.last_sequence = deque(maxlen=10)
         self.actions = ['r', 'p', 's']

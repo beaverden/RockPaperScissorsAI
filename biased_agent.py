@@ -1,9 +1,10 @@
 import random
-from helpers import opposite
+from agent import Agent
 
 
-class BiasedAgent:
+class BiasedAgent(Agent):
     def __init__(self):
+        Agent.__init__(self)
         self.bias = {'r': 0.35, 'p': 0.3233, 's': 0.3267}
         self.cumulative = []
         self.names = []

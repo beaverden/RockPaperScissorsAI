@@ -1,59 +1,37 @@
-import numpy as np
-import random
-import markov
-import nn_agent
-import random_agent
-import biased_agent
 import matching_agent
-from helpers import evaluate, opposite
+import random_agent
+from helpers import evaluate
+from agent import Agent
 
 
-def real_opponent():
-    def gen():
-        return input().strip()
+class Game:
+    def __init__(self, iterations: int, player1: Agent, player2: Agent) -> None:
+        self.player1 = player1
+        self.player2 = player2
+        self.iterations = iterations
 
-    return gen
+    def start(self) -> None:
+        ties = 0
+        p1 = 0
+        p2 = 0
 
+        for i in range(self.iterations):
+            player1_move = self.player1.move()
+            player2_move = self.player2.move()
+            result = evaluate(player1_move, player2_move)
 
-def play():
-
-    # player1 = markov.MarkovAgent()
-    # player1 = random_agent.RandomAgent()
-    # player1 = biased_agent.BiasedAgent()
-    player1 = nn_agent.NNAgent()
-    #player2 = nn_agent.NNAgent()
-    #player2 = random_agent.RandomAgent()
-    player2 = matching_agent.MatchingAgent()
-
-    for i in range(15):
-        player1_move = player1.move()
-        player2_move = player2.move()
-        print(player1_move, player2_move)
-        result = evaluate(player1_move, player2_move)
-        player1.train(player2_move, player1_move, result)
-        player2.train(player1_move, player2_move, result)
-
-    ties = 0
-    p1 = 0
-    p2 = 0
-
-    for i in range(8000):
-        player1_move = player1.move()
-        player2_move = player2.move()
-        result = evaluate(player1_move, player2_move)
-
-        r_str = ''
-        if result == 0:
-            ties += 1
-        elif result == 1:
-            p1 += 1
-        else:
-            p2 += 1
-        player1.train(player2_move, player1_move, result)
-        player2.train(player1_move, player2_move, result)
-        # print('Player1: %s, Player2: %s, %s' % (player1_move, player2_move, r_str))
-        print('Player1: %d, Player2: %d, Ties: %d' % (p1, p2, ties))
+            if result == 0:
+                ties += 1
+            elif result == 1:
+                p1 += 1
+            else:
+                p2 += 1
+            self.player1.train(player2_move, player1_move, result)
+            self.player2.train(player1_move, player2_move, result)
+            # print('Player1: %s, Player2: %s, %s' % (player1_move, player2_move, r_str))
+            print('Player1: %d, Player2: %d, Ties: %d' % (p1, p2, ties))
 
 
 if __name__ == '__main__':
-    play()
+    game = Game(8000, matching_agent.MatchingAgent(), random_agent.RandomAgent())
+    game.start()

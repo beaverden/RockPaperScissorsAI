@@ -1,6 +1,7 @@
 from collections import deque
 from helpers import opposite
 import numpy as np
+from agent import Agent
 
 
 class MarkovModel:
@@ -25,8 +26,9 @@ class MarkovModel:
         return p
 
 
-class MarkovAgent:
+class MarkovAgent(Agent):
     def __init__(self, maxlen=5):
+        Agent.__init__(self)
         self.model = MarkovModel()
         self.last_opponent_moves = deque(maxlen=maxlen)
 

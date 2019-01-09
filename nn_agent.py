@@ -4,9 +4,11 @@ from keras.models import Sequential
 from keras.layers import Activation, Dense
 import random
 from helpers import opposite
+from agent import Agent
 
-class NNAgent:
+class NNAgent(Agent):
     def __init__(self, maxlen=20):
+        Agent.__init__(self)
         self.seq_len = maxlen
         self.model = Sequential([
             Dense(150, input_dim=self.seq_len),
